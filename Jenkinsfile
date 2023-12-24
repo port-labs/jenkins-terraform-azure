@@ -37,7 +37,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', credentialsId: 'github', url: 'git@github.com:<YOUR_USERNAME>/<YOUR_REPO>.git'
+                git branch: 'main', credentialsId: 'github', url: 'git@github.com:port-labs/jenkins-terraform-azure.git'
             }
         }
         stage('Get access token') {
@@ -78,7 +78,7 @@ pipeline {
                 ), usernamePassword(credentialsId: 'port-credentials', usernameVariable: 'TF_VAR_port_client_id', passwordVariable: 'TF_VAR_port_client_secret')]) {
                     script {
                         sh 'cd terraform'
-                        
+
                         echo 'Initializing Terraform'
                         sh 'terraform init'
                         
