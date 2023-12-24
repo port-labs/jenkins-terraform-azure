@@ -44,4 +44,6 @@ Follow these steps to get started:
     2. [Define variables for a pipeline](https://docs.getport.io/create-self-service-experiences/setup-backend/jenkins-pipeline/#defining-variables): Define the STORAGE_NAME, STORAGE_LOCATION, PORT_RUN_ID and BLUEPRINT_ID variables.
     3. [Token Setup](https://docs.getport.io/create-self-service-experiences/setup-backend/jenkins-pipeline/#token-setup): Define the token to match `JOB_TOKEN` as configured in your Port Action.
 
+    NB: The pipeline includes a post run task of `cleanWs` whose `deleteDirs` parameter means that all generated files and temporary build artifacts will be deleted. Therefore, be sure to either remove it or add backend for your terraform state on initialisation.
+
 6. Trigger the action from the [Self-service](https://app.getport.io/self-serve) tab of your Port application.
