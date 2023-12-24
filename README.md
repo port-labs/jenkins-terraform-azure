@@ -1,6 +1,6 @@
 # Jenkins pipeline - Create resource in Azure Cloud with Terraform
 
-This example demonstrates how to deploy a storage account in Azure using a Terraform template via Port Actions.
+This example demonstrates how to deploy a storage account in Azure using Terraform templates via Port Actions.
 
 The workflow is executed through a Jenkins pipeline.
 
@@ -19,11 +19,11 @@ Follow these steps to get started:
     1. Create the Port Credentials using the `Username with password` kind.
         1. `PORT_CLIENT_ID` - Port Client ID [learn more](https://docs.getport.io/build-your-software-catalog/sync-data-to-catalog/api/#get-api-token).
         2. `PORT_CLIENT_SECRET` - Port Client Secret [learn more](https://docs.getport.io/build-your-software-catalog/sync-data-to-catalog/api/#get-api-token).
-    2. Create the Azure Credentials using the `Azure Service Principal` kind. You can create a service principal in order to get the Azure credentials using this [guide](https://learn.microsoft.com/en-us/azure/developer/terraform/get-started-cloud-shell-bash?tabs=bash).
+    2. Create the Azure Credentials using the `Azure Service Principal` kind. You can create a service principal in order to get the Azure credentials using this [guide](https://learn.microsoft.com/en-us/azure/developer/terraform/get-started-cloud-shell-bash?tabs=bash#create-a-service-principal).
         1. `ARM_CLIENT_ID` - Azure Client ID (APP ID) of the application.
         2. `ARM_CLIENT_SECRET` - Azure Client Secret (Password) of the application.
         3. `ARM_SUBSCRIPTION_ID` - Azure Subscription ID.
-        4. `ARM_TENANT_ID` - The Azure Tenant ID.
+        4. `ARM_TENANT_ID` - The Azure [Tenant ID](https://learn.microsoft.com/en-us/azure/azure-portal/get-subscription-tenant-id).
     3. `WEBHOOK_TOKEN` - The webhook token so that the job can only be triggered if that token is supplied.
 
 2. Create a Port [blueprint](https://docs.getport.io/build-your-software-catalog/define-your-data-model/setup-blueprint/#what-is-a-blueprint): [Azure Storage Blueprint](./port/blueprint.json)
@@ -35,6 +35,8 @@ Follow these steps to get started:
     1. `main.tf` - This file will contain the resource blocks which defines the Storage Account to be created in the Azure cloud and the entity to be createed in Port.
     2. `variables.tf` – This file will contain the variable declarations that will be used in the resource blocks e.g. the port credentials and port run id.
     3. `output.tf` – This file will contain the url of the Storage Account that needs to be generated on successful completion of “apply” operation. This url will be used on creating the Port entity in the `endpoint` property.
+
+> In the `variables.tf`, replace the default `resource_group_name` with your resource group from your Azure account. Check this [guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal) to find your resource groups. You may also wish to set the default values of other variables.
 
 5. Create a Jenkins pipeline using the provided [file](./Jenkinsfile):
 
