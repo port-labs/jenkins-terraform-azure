@@ -76,30 +76,30 @@ pipeline {
                     clientSecretVariable: 'ARM_CLIENT_SECRET',
                     tenantIdVariable: 'ARM_TENANT_ID'
                 ), usernamePassword(credentialsId: 'port-credentials', usernameVariable: 'TF_VAR_port_client_id', passwordVariable: 'TF_VAR_port_client_secret')]) {
-                    script {
-                        sh 'cd terraform'
+                    dir('terraform') {
+                        script {
+                            echo 'Initializing Terraform'
+                            sh 'terraform init'
+                            
+                            echo 'Validating Terraform configuration'
+                            sh 'terraform validate'
+                            
+                            echo 'Creating Terraform Plan for Azure changes'
+                            sh """
+                            terraform plan -out=tfazure -var storage_account_name=$STORAGE_NAME -var location=$STORAGE_LOCATION -var port_run_id=$PORT_RUN_ID -target=azurerm_storage_account.storage_account
+                            """
+                            
+                            echo 'Applying Terraform changes to Azure'
+                            sh 'terraform apply -auto-approve -input=false tfazure'
 
-                        echo 'Initializing Terraform'
-                        sh 'terraform init'
-                        
-                        echo 'Validating Terraform configuration'
-                        sh 'terraform validate'
-                        
-                        echo 'Creating Terraform Plan for Azure changes'
-                        sh """
-                        terraform plan -out=tfazure -var storage_account_name=$STORAGE_NAME -var location=$STORAGE_LOCATION -var port_run_id=$PORT_RUN_ID -target=azurerm_storage_account.storage_account
-                        """
-                        
-                        echo 'Applying Terraform changes to Azure'
-                        sh 'terraform apply -auto-approve -input=false tfazure'
-
-                        echo 'Creating Terraform Plan for Port changes'
-                        sh """
-                        terraform plan -out=tfport -var storage_account_name=$STORAGE_NAME -var location=$STORAGE_LOCATION -var port_run_id=$PORT_RUN_ID
-                        """
-                        
-                        echo 'Applying Terraform changes to Port'
-                        sh 'terraform apply -auto-approve -input=false tfport'
+                            echo 'Creating Terraform Plan for Port changes'
+                            sh """
+                            terraform plan -out=tfport -var storage_account_name=$STORAGE_NAME -var location=$STORAGE_LOCATION -var port_run_id=$PORT_RUN_ID
+                            """
+                            
+                            echo 'Applying Terraform changes to Port'
+                            sh 'terraform apply -auto-approve -input=false tfport'
+                        }
                     }
                 }
             }
