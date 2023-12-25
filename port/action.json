@@ -1,7 +1,7 @@
 {
     "identifier": "create_azure_storage",
     "title": "Create Azure Storage",
-    "icon": "S3",
+    "icon": "Azure",
     "userInputs": {
         "properties": {
             "storage_name": {

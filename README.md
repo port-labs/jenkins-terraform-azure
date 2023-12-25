@@ -5,11 +5,11 @@ This example demonstrates how to deploy a storage account in Azure using Terrafo
 The workflow is executed through a Jenkins pipeline.
 
 ## Prerequisites
-1. Install the following plugins in Jenkins: 
+
+1. Install the following plugins in Jenkins:
    1. [Azure Credentials](https://plugins.jenkins.io/azure-credentials/) - This plugin provides the `Azure Service Principal` kind in Jenkins Credentials.
    2. [Terraform Plugin](https://plugins.jenkins.io/terraform/)
    3. [Generic Webhook Trigger](https://plugins.jenkins.io/generic-webhook-trigger/)
-
 
 ## Example - creating a storage account
 
@@ -32,7 +32,7 @@ Follow these steps to get started:
 
 3. Create a Port Action in the [self-service hub](https://app.getport.io/self-serve) using this [JSON](./port/action.json) definition
 4. Create the terraform templates in the root of your GitHub repository. You can them in the [terraform](./terraform/) folder:
-    1. `main.tf` - This file will contain the resource blocks which defines the Storage Account to be created in the Azure cloud and the entity to be createed in Port.
+    1. `main.tf` - This file will contain the resource blocks which define the Storage Account to be created in the Azure cloud and the entity to be createed in Port.
     2. `variables.tf` – This file will contain the variable declarations that will be used in the resource blocks e.g. the port credentials and port run id.
     3. `output.tf` – This file will contain the url of the Storage Account that needs to be generated on successful completion of “apply” operation. This url will be used on creating the Port entity in the `endpoint` property.
 
@@ -46,4 +46,4 @@ Follow these steps to get started:
 
     NB: The pipeline includes a post run task of `cleanWs` whose `deleteDirs` parameter means that all generated files and temporary build artifacts will be deleted. Therefore, be sure to either change it or add backend for your terraform state on initialisation.
 
-6. Trigger the action from the [Self-service](https://app.getport.io/self-serve) tab of your Port application.
+6. Trigger the action from the [self-service](https://app.getport.io/self-serve) tab of your Port application.
